@@ -232,7 +232,7 @@ public class ImageViewer extends ActionBarActivity implements IProgressListener 
 
 
     static {
-        System.loadLibrary("convolutional-filter");
+        System.loadLibrary("convolution-filter");
     }
 
     public native Bitmap applyMeanFilterImpl(Bitmap bitmap);
