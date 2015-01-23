@@ -9,12 +9,19 @@
         android:layout_height="fill_parent" android:onClick="text_view_Click"/>
     <ImageView android:id="@+id/image_view" android:visibility="gone" android:layout_height="fill_parent"
         android:layout_width="fill_parent" />
-    <ProgressBar
-        android:id="@+id/progress_bar"
+    <TextView
+        android:id="@+id/progress_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:visibility="gone"
-        android:indeterminate="false"/>
+        android:visibility="gone"/>
+
+    <!--<ProgressBar-->
+        <!--android:id="@+id/progress_bar"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:visibility="gone"-->
+        <!--android:indeterminate="false"/>-->
 
 </RelativeLayout>

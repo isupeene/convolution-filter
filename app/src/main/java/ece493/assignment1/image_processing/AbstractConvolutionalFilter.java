@@ -28,6 +28,7 @@ public abstract class AbstractConvolutionalFilter implements IConvolutionalFilte
     @Override
     public Bitmap process(Bitmap original) {
         Log.d(TAG, String.format("Processing a %d x %d image.", original.getWidth(), original.getHeight()));
+        Log.d(TAG, String.format("Image type: %s", original.getConfig().name()));
 
         if (_listener != null) _listener.progressStarted(original.getWidth());
 

@@ -40,7 +40,7 @@ public class ConvolutionWindow {
         int[] pixels = new int[windowHeight * windowWidth];
 
         for (int i_result = 0, i_original = xStart; i_result < windowWidth; ++i_result, ++i_original) {
-            for (int j_result = 0, j_original = yStart; j_original < windowHeight; ++j_result, ++j_original) {
+            for (int j_result = 0, j_original = yStart; j_result < windowHeight; ++j_result, ++j_original) {
                 pixels[i_result * windowHeight + j_result] = _image.getPixel(i_original, j_original);
             }
         }

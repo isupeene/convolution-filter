@@ -21,6 +21,6 @@ public class Pixel {
     }
 
     public static int fromRGBA(int red, int green, int blue, int alpha) {
-        return red & green & blue & alpha;
+        return red | green | blue | alpha;
     }
 }

@@ -1,5 +1,9 @@
 package ece493.assignment1.image_processing;
 
+import android.util.Log;
+
+import java.util.Arrays;
+
 import ece493.assignment1.listeners.IProgressListener;
 
 /**
@@ -9,6 +13,8 @@ public class MeanFilter extends AbstractConvolutionalFilter {
     public MeanFilter(int windowSize, IProgressListener listener) {
         super(windowSize, listener);
     }
+
+    private static final String TAG = "MeanFilter";
 
     @Override
     protected int computeConvolution(ConvolutionWindow window) {
@@ -30,6 +36,7 @@ public class MeanFilter extends AbstractConvolutionalFilter {
         int blue = blueTotal / pixels.length;
         int alpha = alphaTotal / pixels.length;
 
-        return Pixel.fromRGBA(red, green, blue, alpha);
+        int pixel = Pixel.fromRGBA(red, green, blue, alpha);
+        return pixel;
     }
 }

@@ -31,6 +31,8 @@ public class ImageViewer extends ActionBarActivity implements IProgressListener 
 
     Menu _menu;
     Bitmap _bitmap;
+    int _maxProgress;
+    int _currentProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +122,6 @@ public class ImageViewer extends ActionBarActivity implements IProgressListener 
     }
 
     private void applyMeanFilter() {
-        ImageView imageView = (ImageView)findViewById(R.id.image_view);
         if (_bitmap == null) {
             Log.wtf(TAG, "applyMeanFilter called when no image was present!");
             Toast.makeText(this, "No image available to filter!", Toast.LENGTH_LONG).show();
@@ -130,12 +131,14 @@ public class ImageViewer extends ActionBarActivity implements IProgressListener 
                 @Override
                 public void run() {
                     try {
-                        MeanFilter meanFilter = new MeanFilter(Settings.windowSize, ImageViewer.this);
-                        final Bitmap newImage = meanFilter.process(_bitmap);
+//                        MeanFilter meanFilter = new MeanFilter(Settings.windowSize, ImageViewer.this);
+//                        final Bitmap newImage = meanFilter.process(_bitmap);
+                        final Bitmap newImage = applyMeanFilterImpl(_bitmap);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 setImage(newImage);
+                                Toast.makeText(ImageViewer.this, "We set the image!", Toast.LENGTH_LONG).show();
                             }
                         });
                     }
@@ -156,11 +159,17 @@ public class ImageViewer extends ActionBarActivity implements IProgressListener 
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+//                ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+//
+//                progressBar.setVisibility(View.VISIBLE);
+//                progressBar.setMax(maxProgress);
+//                progressBar.setProgress(0);
+                _maxProgress = maxProgress;
+                _currentProgress = 0;
 
-                progressBar.setVisibility(View.VISIBLE);
-                progressBar.setMax(maxProgress);
-                progressBar.setProgress(0);
+                TextView progressText = (TextView)findViewById(R.id.progress_text);
+                progressText.setVisibility(View.VISIBLE);
+                progressText.setText(String.format("%d/%d", _currentProgress, _maxProgress));
 
                 MenuItem meanFilterItem = _menu.findItem(R.id.action_mean_filter);
                 meanFilterItem.setVisible(false);
@@ -176,9 +185,13 @@ public class ImageViewer extends ActionBarActivity implements IProgressListener 
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+//                ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+//
+//                progressBar.incrementProgressBy(1);
+                _currentProgress += 1;
 
-                progressBar.incrementProgressBy(1);
+                TextView progressText = (TextView)findViewById(R.id.progress_text);
+                progressText.setText(String.format("%d/%d", _currentProgress, _maxProgress));
             }
         });
     }
@@ -188,9 +201,11 @@ public class ImageViewer extends ActionBarActivity implements IProgressListener 
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
-
-                progressBar.setVisibility(View.GONE);
+//                ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+//
+//                progressBar.setVisibility(View.GONE);
+                TextView progressText = (TextView)findViewById(R.id.progress_text);
+                progressText.setVisibility(View.GONE);
 
                 MenuItem meanFilterItem = _menu.findItem(R.id.action_mean_filter);
                 meanFilterItem.setVisible(true);
@@ -200,4 +215,25 @@ public class ImageViewer extends ActionBarActivity implements IProgressListener 
             }
         });
     }
+
+    private int _hack;
+    @Override
+    public void hack(final String str) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (_hack % 5000 == 0) {
+                    Toast.makeText(ImageViewer.this, str, Toast.LENGTH_SHORT).show();
+                }
+                _hack++;
+            }
+        });
+    }
+
+
+    static {
+        System.loadLibrary("convolutional-filter");
+    }
+
+    public native Bitmap applyMeanFilterImpl(Bitmap bitmap);
 }
