@@ -233,7 +233,10 @@ public class ImageViewer extends ActionBarActivity implements IProgressListener 
 
     static {
         System.loadLibrary("convolution-filter");
+        enableNativeLogging(new LogWrapper());
     }
 
     public native Bitmap applyMeanFilterImpl(Bitmap bitmap);
+
+    public static native void enableNativeLogging(LogWrapper logWrapper);
 }

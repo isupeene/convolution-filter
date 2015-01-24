@@ -18,7 +18,7 @@ ConvolutionWindow::ConvolutionWindow(JNIEnv* env, jobject image, jint x, jint y,
     _width = _xEnd - _xStart + 1;
     _height = _yEnd - _yStart + 1;
 
-    _end = const_iterator(_width * _height);
+    _end = const_iterator(this, _width * _height);
 }
 
 bool operator ==(const ConvolutionWindow& w1, const ConvolutionWindow& w2) {
@@ -39,22 +39,22 @@ size_t ConvolutionWindow::size() const {
 
 // Iterator
 
-ConvolutionWindow::const_iterator() :
+ConvolutionWindow::const_iterator::const_iterator() :
     _window(nullptr),
     _offset(0)
 {}
 
-ConvolutionWindow::const_iterator(ConvolutionWindow window, int offset) :
+ConvolutionWindow::const_iterator::const_iterator(const ConvolutionWindow* window, int offset) :
     _window(window),
     _offset(offset)
 {}
 
 bool operator ==(const ConvolutionWindow::const_iterator& i1, const ConvolutionWindow::const_iterator& i2) {
-    return _i1._offset == _i2._offset && _i1._window == i2._window;
+    return i1._offset == i2._offset && i1._window == i2._window;
 }
 
 void swap(ConvolutionWindow::const_iterator& i1, ConvolutionWindow::const_iterator& i2) {
-    ConvolutionWindow* tempWindow = i1._window;
+    const ConvolutionWindow* tempWindow = i1._window;
     i1._window = i2._window;
     i1._window = tempWindow;
 
@@ -63,8 +63,8 @@ void swap(ConvolutionWindow::const_iterator& i1, ConvolutionWindow::const_iterat
     i2._offset = tempOffset;
 }
 
-ConvolutionWindow::const_iterator::value_type ConvolutionWindow::const_iterator::operator *() {
-    return Bitmap::getPixel(_window._env, _window._image, _window.i(_offset), _window.j(_offset));
+ConvolutionWindow::const_iterator::value_type ConvolutionWindow::const_iterator::operator *() const {
+    return Bitmap::getPixel(_window->_env, _window->_image, _window->i(_offset), _window->j(_offset));
 }
 
 ConvolutionWindow::const_iterator& ConvolutionWindow::const_iterator::operator ++() {

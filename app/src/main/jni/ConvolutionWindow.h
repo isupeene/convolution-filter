@@ -20,7 +20,7 @@ public:
      * See http://en.cppreference.com/w/cpp/concept/InputIterator
      * We don't implement ->, since we are iterating over jints.
      */
-    friend struct const_iterator {
+    struct const_iterator {
         // Iterator Traits
         typedef std::ptrdiff_t difference_type;
         typedef jint value_type;
@@ -29,8 +29,8 @@ public:
         typedef std::input_iterator_tag iterator_category;
 
         // DefaultConstructible
-        iterator();
-        iterator(const ConvolutionWindow* window, int offset = 0);
+        const_iterator();
+        const_iterator(const ConvolutionWindow* window, int offset = 0);
 
         // CopyConstructible, CopyAssignable, MoveConstructible, MoveAssignable and Destructible
         // are implemented by the compiler.
@@ -62,6 +62,8 @@ public:
     size_t size() const;
 
 private:
+    friend struct const_iterator;
+
     JNIEnv* _env;
     jobject _image;
     jint _xStart;

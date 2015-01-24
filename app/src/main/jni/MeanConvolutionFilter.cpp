@@ -9,7 +9,7 @@ jint MeanConvolutionFilter::ComputeConvolution(const ConvolutionWindow& window) 
     jint totalBlue = 0;
 
     for (jint pixel : window) {
-        totalAlpha += Pixel:GetAlpha(pixel);
+        totalAlpha += Pixel::GetAlpha(pixel);
         totalRed += Pixel::GetRed(pixel);
         totalGreen += Pixel::GetGreen(pixel);
         totalBlue += Pixel::GetBlue(pixel);

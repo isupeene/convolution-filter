@@ -13,6 +13,8 @@ android {
 
         ndk {
             moduleName "convolution-filter"
+            stl "gnustl_static"
+            setcFlags("-std=c++11")
         }
     }
     buildTypes {
