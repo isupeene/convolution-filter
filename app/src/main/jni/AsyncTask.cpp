@@ -3,13 +3,14 @@
 #include <cstdio>
 
 #include "Log.h"
+#include "JClass.h"
+#include "JObject.h"
 
 #define TAG "AsyncTask"
 
 namespace {
-    jclass GetClass(JNIEnv* env) {
-        static jclass result = env->FindClass("android/os/AsyncTask");
-        return result;
+    JClass GetClass(JNIEnv* env) {
+        return JClass(env, env->FindClass("android/os/AsyncTask"));
     }
 
     jmethodID GetMethodID_publishProgress(JNIEnv* env) {
@@ -20,24 +21,23 @@ namespace {
         );
         return result;
     }
+
+
 }
 
 namespace AsyncTask {
     void publishProgress(JNIEnv* env, jobject task, int progress) {
         // TODO: seperate Integer Array stuff from AsyncTask stuff.
-        static jclass intClass = env->FindClass("java/lang/Integer");
+        JClass intClass(env, env->FindClass("java/lang/Integer"));
         static jmethodID initID = env->GetMethodID(intClass, "<init>", "(I)V");
-        jobject progressObject = env->NewObject(intClass, initID, progress);
+        JObject progressObject(env, env->NewObject(intClass, initID, progress));
 
-        jobject array = env->NewObjectArray(1, intClass, progressObject);
+        JObject array(env, env->NewObjectArray(1, intClass, progressObject.get()));
 
         env->CallVoidMethod(
             task,
             GetMethodID_publishProgress(env),
-            array
+            array.get()
         );
-
-        env->DeleteLocalRef(progressObject);
-        env->DeleteLocalRef(array);
     }
 }

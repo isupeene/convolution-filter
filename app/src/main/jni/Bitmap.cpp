@@ -1,9 +1,10 @@
 #include "Bitmap.h"
 
+#include "JClass.h"
+
 namespace {
-    jclass GetClass(JNIEnv* env) {
-        static jclass result = env->FindClass("android/graphics/Bitmap");
-        return result;
+    JClass GetClass(JNIEnv* env) {
+        return JClass(env, env->FindClass("android/graphics/Bitmap"));
     }
 
     jmethodID GetMethodID_createBitmap(JNIEnv* env) {

@@ -1,19 +1,27 @@
 #include "Log.h"
 
+#include "JClass.h"
+#include "JObject.h"
+
 
 namespace {
+    JClass GetClass(JNIEnv* env) {
+        return JClass(env, env->FindClass("android/util/Log"));
+    }
+
     void invoke(JNIEnv* env, const char* methodName, const char* tag, const char* message)
     {
-        jclass logClass = env->FindClass("android/util/Log");
+        // TODO: Consider optimizing by caching method ids.
+        JClass logClass = GetClass(env);
         jmethodID methodID = env->GetStaticMethodID(logClass, methodName, "(Ljava/lang/String;Ljava/lang/String;)I");
 
         // We must track and delete the local refs so that we don't exceed the maximum.
-        jobject tagObject = env->NewStringUTF(tag);
-        jobject messageObject = env->NewStringUTF(message);
-        env->CallStaticIntMethod(logClass, methodID, tagObject, messageObject);
-        env->DeleteLocalRef(tagObject);
-        env->DeleteLocalRef(messageObject);
-        env->DeleteLocalRef(logClass);
+        env->CallStaticIntMethod(
+            logClass,
+            methodID,
+            JObject(env, env->NewStringUTF(tag)).get(),
+            JObject(env, env->NewStringUTF(message)).get()
+        );
     }
 }
 

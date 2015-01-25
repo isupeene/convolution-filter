@@ -23,7 +23,6 @@ jobject ConvolutionFilter::Process(jobject originalBitmap) {
             ConvolutionWindow window(_env, originalBitmap, i, j, _windowSize);
             Bitmap::setPixel(_env, result, i, j, ComputeConvolution(window));
         }
-
         AsyncTask::publishProgress(_env, _task, i * 100 / Bitmap::getWidth(_env, originalBitmap));
     }
     Log::d(_env, TAG, "Finished processing bitmap.");
