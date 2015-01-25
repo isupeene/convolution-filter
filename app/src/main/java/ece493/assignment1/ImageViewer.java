@@ -19,7 +19,6 @@ import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-
 import ece493.assignment1.listeners.IProgressListener;
 
 
@@ -132,7 +131,7 @@ public class ImageViewer extends ActionBarActivity implements IProgressListener 
                     try {
 //                        MeanFilter meanFilter = new MeanFilter(Settings.windowSize, ImageViewer.this);
 //                        final Bitmap newImage = meanFilter.process(_bitmap);
-                        final Bitmap newImage = applyMeanFilterImpl(_bitmap);
+                        final Bitmap newImage = applyMeanFilterImpl(_bitmap, getWindowSize());
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -229,10 +228,14 @@ public class ImageViewer extends ActionBarActivity implements IProgressListener 
         });
     }
 
+    private int getWindowSize() {
+        return getSharedPreferences(Settings.NAME, MODE_PRIVATE).getInt(Settings.WINDOW_SIZE, Settings.DEFAULT_WINDOW_SIZE);
+    }
+
 
     static {
         System.loadLibrary("convolution-filter");
     }
 
-    public native Bitmap applyMeanFilterImpl(Bitmap bitmap);
+    public native Bitmap applyMeanFilterImpl(Bitmap bitmap, int windowSize);
 }

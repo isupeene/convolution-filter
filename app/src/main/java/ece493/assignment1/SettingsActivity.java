@@ -1,14 +1,21 @@
 package ece493.assignment1;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 
-public class SettingsActivity extends ActionBarActivity implements SeekBar.OnSeekBarChangeListener {
+public class SettingsActivity
+        extends ActionBarActivity
+        implements SeekBar.OnSeekBarChangeListener
+{
+
+    private static final String TAG = "SettingsActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,7 +24,6 @@ public class SettingsActivity extends ActionBarActivity implements SeekBar.OnSee
 
         SeekBar seekBar = (SeekBar)findViewById(R.id.seek_bar);
         seekBar.setOnSeekBarChangeListener(this);
-
         setSeekBarValue();
     }
 
@@ -33,19 +39,28 @@ public class SettingsActivity extends ActionBarActivity implements SeekBar.OnSee
         SeekBar seekBar = (SeekBar)findViewById(R.id.seek_bar);
         TextView seekBarValue = (TextView)findViewById(R.id.seek_bar_value);
 
-        seekBar.setProgress((Settings.windowSize - 3) / 2);
-        seekBarValue.setText(String.valueOf(Settings.windowSize));
+        int windowSize = getWindowSize();
+        seekBar.setProgress((windowSize - 3) / 2);
+        seekBarValue.setText(String.valueOf(windowSize));
     }
 
-    private void setWindowSize(int progress) {
-        Settings.windowSize = 2 * progress + 3;
-        TextView seekBarValue = (TextView)findViewById(R.id.seek_bar_value);
-        seekBarValue.setText(String.valueOf(Settings.windowSize));
+    private int getWindowSize() {
+        return getSharedPreferences(Settings.NAME, MODE_PRIVATE).getInt(Settings.WINDOW_SIZE, Settings.DEFAULT_WINDOW_SIZE);
     }
+
+    private void setWindowSize(int windowSize) {
+        getSharedPreferences(Settings.NAME, MODE_PRIVATE).edit().putInt(Settings.WINDOW_SIZE, windowSize).commit();
+    }
+
+    // SeekBar.OnSeekBarChangeListener
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        setWindowSize(progress);
+        int windowSize = 2 * progress + 3;
+
+        setWindowSize(windowSize);
+        TextView seekBarValue = (TextView)findViewById(R.id.seek_bar_value);
+        seekBarValue.setText(String.valueOf(windowSize));
     }
 
     @Override
