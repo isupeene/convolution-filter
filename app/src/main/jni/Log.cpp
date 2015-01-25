@@ -6,7 +6,14 @@ namespace {
     {
         jclass logClass = env->FindClass("android/util/Log");
         jmethodID methodID = env->GetStaticMethodID(logClass, methodName, "(Ljava/lang/String;Ljava/lang/String;)I");
-        env->CallStaticIntMethod(logClass, methodID, env->NewStringUTF(tag), env->NewStringUTF(message));
+
+        // We must track and delete the local refs so that we don't exceed the maximum.
+        jobject tagObject = env->NewStringUTF(tag);
+        jobject messageObject = env->NewStringUTF(message);
+        env->CallStaticIntMethod(logClass, methodID, tagObject, messageObject);
+        env->DeleteLocalRef(tagObject);
+        env->DeleteLocalRef(messageObject);
+        env->DeleteLocalRef(logClass);
     }
 }
 

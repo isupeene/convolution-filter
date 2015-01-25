@@ -3,6 +3,9 @@
 #include <algorithm>
 
 #include "Bitmap.h"
+#include "Log.h"
+
+#define TAG "ConvolutionWindow"
 
 ConvolutionWindow::ConvolutionWindow(JNIEnv* env, jobject image, jint x, jint y, jint windowSize) :
     _env(env),
@@ -12,7 +15,7 @@ ConvolutionWindow::ConvolutionWindow(JNIEnv* env, jobject image, jint x, jint y,
 
     _xStart = std::max(0, x - edgeWidth);
     _xEnd = std::min(Bitmap::getWidth(env, image) - 1, x + edgeWidth);
-    _yStart = std::max(0, x - edgeWidth);
+    _yStart = std::max(0, y - edgeWidth);
     _yEnd = std::min(Bitmap::getHeight(env, image) - 1, y + edgeWidth);
 
     _width = _xEnd - _xStart + 1;
