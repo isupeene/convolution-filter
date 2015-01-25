@@ -20,7 +20,6 @@ import android.widget.Toast;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-import ece493.assignment1.image_processing.MeanFilter;
 import ece493.assignment1.listeners.IProgressListener;
 
 
