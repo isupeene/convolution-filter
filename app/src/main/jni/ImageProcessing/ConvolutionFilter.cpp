@@ -1,8 +1,8 @@
 #include "ConvolutionFilter.h"
 
-#include "Bitmap.h"
-#include "Log.h"
-#include "AsyncTask.h"
+#include "../Android/Bitmap.h"
+#include "../Android/Log.h"
+#include "../Android/AsyncTask.h"
 
 #define TAG "ConvolutionFilter"
 

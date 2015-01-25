@@ -2,8 +2,8 @@
 
 #include <algorithm>
 
-#include "Bitmap.h"
-#include "Log.h"
+#include "../Android/Bitmap.h"
+#include "../Android/Log.h"
 
 #define TAG "ConvolutionWindow"
 

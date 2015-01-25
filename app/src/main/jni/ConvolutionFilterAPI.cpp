@@ -1,8 +1,8 @@
 #include <jni.h>
 
-#include "Bitmap.h"
-#include "MeanConvolutionFilter.h"
-#include "Log.h"
+#include "Android/Bitmap.h"
+#include "ImageProcessing/MeanConvolutionFilter.h"
+#include "Android/Log.h"
 
 extern "C" {
 

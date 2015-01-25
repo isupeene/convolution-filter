@@ -3,8 +3,9 @@
 #include <cstdio>
 
 #include "Log.h"
-#include "JClass.h"
-#include "JObject.h"
+
+#include "../JNI/JClass.h"
+#include "../JNI/JObject.h"
 
 #define TAG "AsyncTask"
 

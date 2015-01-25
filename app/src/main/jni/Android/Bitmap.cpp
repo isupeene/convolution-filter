@@ -1,6 +1,6 @@
 #include "Bitmap.h"
 
-#include "JClass.h"
+#include "../JNI/JClass.h"
 
 namespace {
     JClass GetClass(JNIEnv* env) {
