@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-
+// TODO: Add a button to go back - using the hardware back button is unintuitive.
 public class SettingsActivity
         extends ActionBarActivity
         implements SeekBar.OnSeekBarChangeListener

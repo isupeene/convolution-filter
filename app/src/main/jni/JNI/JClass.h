@@ -1,3 +1,6 @@
+#ifndef JCLASS_H
+#define JCLASS_H
+
 #include <jni.h>
 
 // Resource management class for jclasses.  Deletes the local ref to the jclass in the destructor.
@@ -11,3 +14,5 @@ private:
     JNIEnv* _env;
     jclass _inner;
 };
+
+#endif

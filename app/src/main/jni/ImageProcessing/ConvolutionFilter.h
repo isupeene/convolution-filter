@@ -1,3 +1,6 @@
+#ifndef CONVOLUTION_FILTER_H
+#define CONVOLUTION_FILTER_H
+
 #include <jni.h>
 
 #include "ConvolutionWindow.h"
@@ -15,3 +18,5 @@ protected:
 
     virtual jint ComputeConvolution(const ConvolutionWindow& window) = 0;
 };
+
+#endif

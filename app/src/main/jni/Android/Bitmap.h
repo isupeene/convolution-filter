@@ -1,3 +1,6 @@
+#ifndef BITMAP_H
+#define BITMAP_H
+
 #include <jni.h>
 
 namespace Bitmap {
@@ -18,3 +21,5 @@ namespace Bitmap {
      */
     jobject EmptyClone(JNIEnv* env, jobject source);
 }
+
+#endif

@@ -1,24 +1,16 @@
 #include "MeanConvolutionFilter.h"
 
+#include <numeric>
+
 #include "Pixel.h"
 
 jint MeanConvolutionFilter::ComputeConvolution(const ConvolutionWindow& window) {
-    jint totalAlpha = 0;
-    jint totalRed = 0;
-    jint totalGreen = 0;
-    jint totalBlue = 0;
-
-    for (jint pixel : window) {
-        totalAlpha += Pixel::GetAlpha(pixel);
-        totalRed += Pixel::GetRed(pixel);
-        totalGreen += Pixel::GetGreen(pixel);
-        totalBlue += Pixel::GetBlue(pixel);
-    }
-
-    jint alpha = totalAlpha / window.size();
-    jint red = totalRed / window.size();
-    jint green = totalGreen / window.size();
-    jint blue = totalBlue / window.size();
-
-    return Pixel::CreatePixel(alpha, red, green, blue);
+    return std::accumulate(window.begin(), window.end(), Pixel()) / window.size();
+//    Pixel sum;
+//
+//    for (Pixel pixel : window) {
+//        sum = sum + pixel;
+//    }
+//
+//    return sum / window.size();
 }

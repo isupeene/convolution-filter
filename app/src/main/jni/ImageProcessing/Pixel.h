@@ -1,17 +1,26 @@
+#ifndef PIXEL_H
+#define PIXEL_H
+
 #include <jni.h>
 
-/**
- * Note that only ARGB_8888 pixels are supported.
- * Using other pixel types will cause unexpected results.
- */
-namespace Pixel {
-    jint GetAlpha(jint pixel);
 
-    jint GetRed(jint pixel);
+// TODO: Support more than just ARGB_8888 pixels.
+class Pixel {
+public:
+    Pixel();
+    Pixel(jint color);
+    operator jint();
 
-    jint GetGreen(jint pixel);
+    friend Pixel operator +(const Pixel& p1, const Pixel& p2);
+    friend Pixel operator /(const Pixel& pixel, int divisor);
 
-    jint GetBlue(jint pixel);
+private:
+    Pixel(int alpha, int red, int green, int blue);
 
-    jint CreatePixel(jint alpha, jint red, jint green, jint blue);
-}
+    int _alpha;
+    int _red;
+    int _green;
+    int _blue;
+};
+
+#endif

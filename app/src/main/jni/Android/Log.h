@@ -1,3 +1,6 @@
+#ifndef LOG_H
+#define LOG_H
+
 #include <jni.h>
 
 namespace Log {
@@ -11,3 +14,5 @@ namespace Log {
 
     void wtf(JNIEnv* env, const char* tag, const char* message);
 }
+
+#endif

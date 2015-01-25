@@ -1,6 +1,11 @@
+#ifndef CONVOLUTION_WINDOW_H
+#define CONVOLUTION_WINDOW_H
+
 #include <jni.h>
 #include <iterator>
 #include <cstddef>
+
+#include "Pixel.h"
 
 class ConvolutionWindow {
 public:
@@ -16,16 +21,17 @@ public:
 
     /**
      * A const iterator over the pixels in the window.
-     * compliant with the STL standards for input iterators.
+     * mostly compliant with the STL standards for input iterators.
      * See http://en.cppreference.com/w/cpp/concept/InputIterator
-     * We don't implement ->, since we are iterating over jints.
+     * We don't implement ->, since the objects we're iterating
+     * over are actually created on demand.
      */
     struct const_iterator {
         // Iterator Traits
         typedef std::ptrdiff_t difference_type;
-        typedef jint value_type;
-        typedef const jint& reference;
-        typedef const jint* pointer;
+        typedef Pixel value_type;
+        typedef const Pixel& reference;
+        typedef const Pixel* pointer;
         typedef std::input_iterator_tag iterator_category;
 
         // DefaultConstructible
@@ -96,3 +102,4 @@ inline jint ConvolutionWindow::i(int offset) const {
 inline jint ConvolutionWindow::j(int offset) const {
     return _yStart + offset / _width;
 }
+#endif

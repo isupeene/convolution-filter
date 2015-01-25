@@ -1,3 +1,6 @@
+#ifndef JOBJECT_H
+#define JOBJECT_H
+
 #include <jni.h>
 
 class JObject {
@@ -11,3 +14,5 @@ private:
     JNIEnv* _env;
     jobject _inner;
 };
+
+#endif

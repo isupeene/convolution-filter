@@ -1,26 +1,48 @@
 #include "Pixel.h"
 
-namespace Pixel {
-    jint GetAlpha(jint pixel) {
-        return (pixel & 0xFF000000) >> 24;;
-    }
 
-    jint GetRed(jint pixel) {
-        return (pixel & 0x00FF0000) >> 16;
-    }
+Pixel::Pixel() :
+    _alpha(0),
+    _red(0),
+    _green(0),
+    _blue(0)
+{}
 
-    jint GetGreen(jint pixel) {
-        return (pixel & 0x0000FF00) >> 8;
-    }
+Pixel::Pixel(jint color) :
+    _alpha((color & 0xFF000000) >> 24),
+    _red((color & 0x00FF0000) >> 16),
+    _green((color & 0x0000FF00) >> 8),
+    _blue(color & 0x000000FF)
+{}
 
-    jint GetBlue(jint pixel) {
-        return pixel & 0x000000FF;
-    }
-    
-    jint CreatePixel(jint alpha, jint red, jint green, jint blue) {
-        return (alpha << 24) |
-               (red << 16) |
-               (green << 8) |
-               blue;
-    }
+Pixel::Pixel(int alpha, int red, int green, int blue) :
+    _alpha(alpha),
+    _red(red),
+    _green(green),
+    _blue(blue)
+{}
+
+Pixel::operator jint() {
+    return (_alpha << 24) |
+           (_red << 16)   |
+           (_green << 8)  |
+           (_blue);
+}
+
+Pixel operator +(const Pixel& p1, const Pixel& p2) {
+    return Pixel(
+        p1._alpha + p2._alpha,
+        p1._red + p2._red,
+        p1._green + p2._green,
+        p1._blue + p2._blue
+    );
+}
+
+Pixel operator /(const Pixel& pixel, int divisor) {
+    return Pixel(
+        pixel._alpha / divisor,
+        pixel._red / divisor,
+        pixel._green / divisor,
+        pixel._blue / divisor
+    );
 }
