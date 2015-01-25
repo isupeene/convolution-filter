@@ -7,5 +7,4 @@ public interface IProgressListener {
     public void progressStarted(int maxProgress);
     public void incrementProgress();
     public void progressFinished();
-    public void hack(String str);
 }

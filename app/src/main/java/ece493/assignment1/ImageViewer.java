@@ -214,20 +214,6 @@ public class ImageViewer extends ActionBarActivity implements IProgressListener 
         });
     }
 
-    private int _hack;
-    @Override
-    public void hack(final String str) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (_hack % 5000 == 0) {
-                    Toast.makeText(ImageViewer.this, str, Toast.LENGTH_SHORT).show();
-                }
-                _hack++;
-            }
-        });
-    }
-
     private int getWindowSize() {
         return getSharedPreferences(Settings.NAME, MODE_PRIVATE).getInt(Settings.WINDOW_SIZE, Settings.DEFAULT_WINDOW_SIZE);
     }
