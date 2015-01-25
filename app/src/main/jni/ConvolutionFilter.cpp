@@ -2,11 +2,13 @@
 
 #include "Bitmap.h"
 #include "Log.h"
+#include "AsyncTask.h"
 
 #define TAG "ConvolutionFilter"
 
-ConvolutionFilter::ConvolutionFilter(JNIEnv* env, jint windowSize) :
+ConvolutionFilter::ConvolutionFilter(JNIEnv* env, jobject task, jint windowSize) :
     _env(env),
+    _task(task),
     _windowSize(windowSize)
 {}
 
@@ -22,10 +24,7 @@ jobject ConvolutionFilter::Process(jobject originalBitmap) {
             Bitmap::setPixel(_env, result, i, j, ComputeConvolution(window));
         }
 
-        char* message = new char[64];
-        sprintf(message, "Finished row %d.", i);
-        Log::v(_env, TAG, message);
-        delete [] message;
+        AsyncTask::publishProgress(_env, _task, i * 100 / Bitmap::getWidth(_env, originalBitmap));
     }
     Log::d(_env, TAG, "Finished processing bitmap.");
 

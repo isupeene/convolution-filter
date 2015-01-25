@@ -6,9 +6,9 @@
 
 extern "C" {
 
-    jobject Java_ece493_assignment1_ImageViewer_applyMeanFilterImpl(JNIEnv* env, jobject thiz, jobject bitmap, jint windowSize)
+    jobject Java_ece493_assignment1_ImageViewer_00024ConvolutionFilterTask_applyMeanFilterImpl(JNIEnv* env, jobject task, jobject bitmap, jint windowSize)
     {
-        MeanConvolutionFilter filter(env, windowSize);
+        MeanConvolutionFilter filter(env, task, windowSize);
         return filter.Process(bitmap);
     }
 }

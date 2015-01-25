@@ -1,13 +1,6 @@
 #include "Bitmap.h"
 
 namespace {
-// We'll need this later for handling different image types.
-//    namespace Config {
-//        jclass GetClass(JNIEnv* env) {
-//            return env->FindClass("android/graphics/Bitmap$Config");
-//        }
-//    }
-
     jclass GetClass(JNIEnv* env) {
         static jclass result = env->FindClass("android/graphics/Bitmap");
         return result;

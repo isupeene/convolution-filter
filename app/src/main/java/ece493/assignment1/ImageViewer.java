@@ -19,18 +19,15 @@ import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import ece493.assignment1.listeners.IProgressListener;
 
 
-public class ImageViewer extends ActionBarActivity implements IProgressListener {
+public class ImageViewer extends ActionBarActivity {
 
     final int SELECT_IMAGE_REQUEST = 1;
     final String TAG = "ImageViewer";
 
     Menu _menu;
     Bitmap _bitmap;
-    int _maxProgress;
-    int _currentProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,26 +122,7 @@ public class ImageViewer extends ActionBarActivity implements IProgressListener 
             Toast.makeText(this, "No image available to filter!", Toast.LENGTH_LONG).show();
         }
         else {
-            new Thread() {
-                @Override
-                public void run() {
-                    try {
-//                        MeanFilter meanFilter = new MeanFilter(Settings.windowSize, ImageViewer.this);
-//                        final Bitmap newImage = meanFilter.process(_bitmap);
-                        final Bitmap newImage = applyMeanFilterImpl(_bitmap, getWindowSize());
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                setImage(newImage);
-                                Toast.makeText(ImageViewer.this, "We set the image!", Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    }
-                    catch (Exception ex) {
-                        Toast.makeText(ImageViewer.this, "An unexpected error occurred!  Sorry. :(", Toast.LENGTH_LONG).show();
-                    }
-                }
-            }.start();
+            new ConvolutionFilterTask().execute(_bitmap);
         }
     }
 
@@ -152,76 +130,65 @@ public class ImageViewer extends ActionBarActivity implements IProgressListener 
         selectImage();
     }
 
-    @Override
-    public void progressStarted(final int maxProgress) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
+    private int getWindowSize() {
+        return getSharedPreferences(Settings.NAME, MODE_PRIVATE).getInt(Settings.WINDOW_SIZE, Settings.DEFAULT_WINDOW_SIZE);
+    }
+
+    private class ConvolutionFilterTask extends AsyncTask<Bitmap, Integer, Bitmap> {
+        @Override
+        protected void onPreExecute() {
 //                ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 //
 //                progressBar.setVisibility(View.VISIBLE);
 //                progressBar.setMax(maxProgress);
 //                progressBar.setProgress(0);
-                _maxProgress = maxProgress;
-                _currentProgress = 0;
+            TextView progressText = (TextView)findViewById(R.id.progress_text);
+            progressText.setVisibility(View.VISIBLE);
+            progressText.setText("0%");
 
-                TextView progressText = (TextView)findViewById(R.id.progress_text);
-                progressText.setVisibility(View.VISIBLE);
-                progressText.setText(String.format("%d/%d", _currentProgress, _maxProgress));
+            MenuItem meanFilterItem = _menu.findItem(R.id.action_mean_filter);
+            meanFilterItem.setVisible(false);
 
-                MenuItem meanFilterItem = _menu.findItem(R.id.action_mean_filter);
-                meanFilterItem.setVisible(false);
+            MenuItem selectImageItem = _menu.findItem(R.id.action_select_image);
+            selectImageItem.setVisible(false);
+        }
 
-                MenuItem selectImageItem = _menu.findItem(R.id.action_select_image);
-                selectImageItem.setVisible(false);
-            }
-        });
-    }
+        @Override
+        protected Bitmap doInBackground(Bitmap... params) {
+            return applyMeanFilterImpl(params[0], getWindowSize());
+        }
 
-    @Override
-    public void incrementProgress() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
+        @Override
+        protected void onProgressUpdate(Integer... progress) {
 //                ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 //
 //                progressBar.incrementProgressBy(1);
-                _currentProgress += 1;
+            TextView progressText = (TextView)findViewById(R.id.progress_text);
+            progressText.setText(String.format("%d%%", progress[0]));
+        }
 
-                TextView progressText = (TextView)findViewById(R.id.progress_text);
-                progressText.setText(String.format("%d/%d", _currentProgress, _maxProgress));
-            }
-        });
-    }
-
-    @Override
-    public void progressFinished() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
+        @Override
+        protected void onPostExecute(Bitmap result) {
 //                ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 //
 //                progressBar.setVisibility(View.GONE);
-                TextView progressText = (TextView)findViewById(R.id.progress_text);
-                progressText.setVisibility(View.GONE);
+            TextView progressText = (TextView)findViewById(R.id.progress_text);
+            progressText.setVisibility(View.GONE);
 
-                MenuItem meanFilterItem = _menu.findItem(R.id.action_mean_filter);
-                meanFilterItem.setVisible(true);
+            MenuItem meanFilterItem = _menu.findItem(R.id.action_mean_filter);
+            meanFilterItem.setVisible(true);
 
-                MenuItem selectImageItem = _menu.findItem(R.id.action_select_image);
-                selectImageItem.setVisible(true);
-            }
-        });
+            MenuItem selectImageItem = _menu.findItem(R.id.action_select_image);
+            selectImageItem.setVisible(true);
+
+            setImage(result);
+            Toast.makeText(ImageViewer.this, "We set the image!", Toast.LENGTH_LONG).show();
+        }
+
+        public native Bitmap applyMeanFilterImpl(Bitmap bitmap, int windowSize);
     }
-
-    private int getWindowSize() {
-        return getSharedPreferences(Settings.NAME, MODE_PRIVATE).getInt(Settings.WINDOW_SIZE, Settings.DEFAULT_WINDOW_SIZE);
-    }
-
 
     static {
         System.loadLibrary("convolution-filter");
     }
-
-    public native Bitmap applyMeanFilterImpl(Bitmap bitmap, int windowSize);
 }
