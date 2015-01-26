@@ -9,10 +9,10 @@ Pixel::Pixel() :
 {}
 
 Pixel::Pixel(jint color) :
-    _alpha((color & 0xFF000000) >> 24),
-    _red((color & 0x00FF0000) >> 16),
-    _green((color & 0x0000FF00) >> 8),
-    _blue(color & 0x000000FF)
+    _alpha(GetAlpha(color)),
+    _red(GetRed(color)),
+    _green(GetGreen(color)),
+    _blue(GetBlue(color))
 {}
 
 Pixel::Pixel(int alpha, int red, int green, int blue) :

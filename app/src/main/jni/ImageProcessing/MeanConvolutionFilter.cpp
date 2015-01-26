@@ -5,12 +5,6 @@
 #include "Pixel.h"
 
 jint MeanConvolutionFilter::ComputeConvolution(const ConvolutionWindow& window) {
+    // TODO: Get rid of the warning this causes somehow.
     return std::accumulate(window.begin(), window.end(), Pixel()) / window.size();
-//    Pixel sum;
-//
-//    for (Pixel pixel : window) {
-//        sum = sum + pixel;
-//    }
-//
-//    return sum / window.size();
 }

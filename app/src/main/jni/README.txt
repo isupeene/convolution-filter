@@ -10,4 +10,8 @@ this automatically.
 The Android folder contains a Facade interface to various Android classes, exposing only the
 methods we require.
 
-The Image Processing folder contains all the logic related to actually processing the images.
+The Image Processing folder contains all the logic related to actually processing the images.  The
+primary class is ConvolutionWindow.  This is an abstract class which is derived from by Mean- and
+MedianConvolutionFilter.  It creates a ConvolutionWindow for each pixel, and passes that window to
+the abstract function ComputeConvolution, which works on the window.  The window exposes an
+iterator over Pixel objects.

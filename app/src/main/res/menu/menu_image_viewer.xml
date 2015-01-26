@@ -8,4 +8,7 @@
     <item android:id="@+id/action_mean_filter" android:title="Mean Filter"
         android:orderInCategory="40" app:showAsAction="always"
         android:visible="false"/>
+    <item android:id="@+id/action_median_filter" android:title="Median Filter"
+        android:orderInCategory="40" app:showAsAction="always"
+        android:visible="false"/>
 </menu>

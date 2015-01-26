@@ -1,11 +1,8 @@
 package ece493.assignment1;
 
-import android.content.SharedPreferences;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -14,8 +11,6 @@ public class SettingsActivity
         extends ActionBarActivity
         implements SeekBar.OnSeekBarChangeListener
 {
-
-    private static final String TAG = "SettingsActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
