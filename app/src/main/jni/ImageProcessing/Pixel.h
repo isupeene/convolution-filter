@@ -4,7 +4,7 @@
 #include <jni.h>
 
 
-// TODO: Support more than just ARGB_8888 pixels.
+// Note: we support only ARGB_8888 pixels.
 class Pixel {
 public:
     Pixel();

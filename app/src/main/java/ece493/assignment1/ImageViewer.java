@@ -18,7 +18,6 @@ import android.widget.Toast;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-// TODO: Enable zoom
 
 /**
  * The main activity, responsible for displaying the image.
@@ -34,7 +33,7 @@ public class ImageViewer extends ActionBarActivity {
     // These can both be null - it means no image is selected.
 
     // We store this so that we can reload the image that was last used when the app is restarted,
-    // i.e. on a configuration change.  TODO: handle config changes ourselves.
+    // i.e. on a configuration change.
     Uri _uri;
     // We store this so that we can pass it to the filters.  We can't necessarily get the
     // original bitmap from the ImageView object.

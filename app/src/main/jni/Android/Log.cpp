@@ -11,7 +11,6 @@ namespace {
 
     void invoke(JNIEnv* env, const char* methodName, const char* tag, const char* message)
     {
-        // TODO: Consider optimizing by caching method ids.
         JClass logClass = GetClass(env);
         jmethodID methodID = env->GetStaticMethodID(logClass, methodName, "(Ljava/lang/String;Ljava/lang/String;)I");
 

@@ -28,7 +28,6 @@ namespace {
 
 namespace AsyncTask {
     void publishProgress(JNIEnv* env, jobject task, int progress) {
-        // TODO: seperate Integer Array stuff from AsyncTask stuff.
         JClass intClass(env, env->FindClass("java/lang/Integer"));
         static jmethodID initID = env->GetMethodID(intClass, "<init>", "(I)V");
         JObject progressObject(env, env->NewObject(intClass, initID, progress));
