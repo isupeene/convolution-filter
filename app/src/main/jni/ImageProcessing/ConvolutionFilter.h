@@ -4,6 +4,7 @@
 #include <jni.h>
 
 #include "ConvolutionWindow.h"
+#include "Pixel.h"
 
 class ConvolutionFilter {
 public:
@@ -16,7 +17,7 @@ protected:
     jobject _task;
     jint _windowSize;
 
-    virtual jint ComputeConvolution(const ConvolutionWindow& window) = 0;
+    virtual Pixel ComputeConvolution(const ConvolutionWindow& window) = 0;
 };
 
 #endif

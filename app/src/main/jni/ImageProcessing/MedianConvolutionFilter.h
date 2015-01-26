@@ -7,7 +7,7 @@ class MedianConvolutionFilter : public ConvolutionFilter {
 public:
     using ConvolutionFilter::ConvolutionFilter;
 protected:
-    jint ComputeConvolution(const ConvolutionWindow& window);
+    Pixel ComputeConvolution(const ConvolutionWindow& window);
 };
 
 #endif

@@ -5,7 +5,7 @@
 
 // Much slower than MeanConvolutionFilter, especially for very small windows.
 // I wasn't able to avoid heap allocations entirely.
-jint MedianConvolutionFilter::ComputeConvolution(const ConvolutionWindow& window) {
+Pixel MedianConvolutionFilter::ComputeConvolution(const ConvolutionWindow& window) {
     std::vector<int> alphaVector(window.begin_alpha(), ConvolutionWindow::alpha_iterator(window.end()));
     std::vector<int> redVector(window.begin_red(), ConvolutionWindow::red_iterator(window.end()));
     std::vector<int> greenVector(window.begin_green(), ConvolutionWindow::green_iterator(window.end()));
