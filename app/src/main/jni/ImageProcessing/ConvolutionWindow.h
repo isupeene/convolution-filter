@@ -21,13 +21,11 @@ public:
 
     /**
      * A const iterator over the pixels in the window.
-     * mostly compliant with the STL standards for random access iterators.
-     * See http://en.cppreference.com/w/cpp/concept/RandomAccessIterator
+     * mostly compliant with the STL standards for input iterators.
+     * See http://en.cppreference.com/w/cpp/concept/InputIterator
      *
      * We don't implement ->, since the objects we're iterating
      * over are actually created on demand.
-     *
-     * Additionally, [] returns by value for the same reason.
      */
     struct pixel_iterator {
         // Iterator Traits
@@ -57,26 +55,6 @@ public:
         // Input Iterator
         friend bool operator !=(const pixel_iterator& i1, const pixel_iterator& i2);
         pixel_iterator operator ++(int);
-
-        // Bidirectional Iterator
-        pixel_iterator& operator --();
-        pixel_iterator operator --(int);
-
-        // Random Access Iterator
-        friend pixel_iterator operator +(const pixel_iterator& it, int offset);
-        friend pixel_iterator operator +(int offset, const pixel_iterator& it);
-        pixel_iterator& operator +=(int offset);
-
-        friend pixel_iterator operator -(const pixel_iterator& it, int offset);
-        friend difference_type operator -(const pixel_iterator& i1, const pixel_iterator& i2);
-        pixel_iterator& operator -=(int offset);
-
-        value_type operator [](int offset);
-
-        friend bool operator <(const pixel_iterator& i1, const pixel_iterator& i2);
-        friend bool operator >(const pixel_iterator& i1, const pixel_iterator& i2);
-        friend bool operator <=(const pixel_iterator& i1, const pixel_iterator& i2);
-        friend bool operator >=(const pixel_iterator& i1, const pixel_iterator& i2);
 
         const ConvolutionWindow* _window;
         int _offset;
@@ -178,14 +156,6 @@ inline bool operator !=(const ConvolutionWindow::pixel_iterator& i1, const Convo
     return !(i1 == i2);
 }
 
-inline bool operator <=(const ConvolutionWindow::pixel_iterator& i1, const ConvolutionWindow::pixel_iterator& i2) {
-    return !(i1 > i2);
-}
-
-inline bool operator >=(const ConvolutionWindow::pixel_iterator& i1, const ConvolutionWindow::pixel_iterator& i2) {
-    return !(i1 < i2);
-}
-
 inline const ConvolutionWindow::pixel_iterator& ConvolutionWindow::end() const {
     return _end;
 }
@@ -196,23 +166,6 @@ inline jint ConvolutionWindow::i(int offset) const {
 
 inline jint ConvolutionWindow::j(int offset) const {
     return _yStart + offset / _width;
-}
-
-inline ConvolutionWindow::pixel_iterator operator +(const ConvolutionWindow::pixel_iterator& it, int offset) {
-    ConvolutionWindow::pixel_iterator result = it;
-    return result += offset;
-}
-
-inline ConvolutionWindow::pixel_iterator operator +(int offset, const ConvolutionWindow::pixel_iterator& it) {
-    return it + offset;
-}
-
-inline ConvolutionWindow::pixel_iterator operator -(const ConvolutionWindow::pixel_iterator& it, int offset) {
-    return it + -offset;
-}
-
-inline ConvolutionWindow::pixel_iterator& ConvolutionWindow::pixel_iterator::operator -=(int offset) {
-    return operator +=(-offset);
 }
 
 #endif

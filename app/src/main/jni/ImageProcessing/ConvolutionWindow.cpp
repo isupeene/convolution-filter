@@ -134,10 +134,6 @@ ConvolutionWindow::blue_iterator::value_type ConvolutionWindow::blue_iterator::o
     );
 }
 
-ConvolutionWindow::pixel_iterator::value_type ConvolutionWindow::pixel_iterator::operator [](int offset) {
-    return Bitmap::getPixel(_window->_env, _window->_image, _window->i(_offset + offset), _window->j(_offset + offset));
-}
-
 ConvolutionWindow::pixel_iterator& ConvolutionWindow::pixel_iterator::operator ++() {
     ++_offset;
     return *this;
@@ -147,24 +143,4 @@ ConvolutionWindow::pixel_iterator ConvolutionWindow::pixel_iterator::operator ++
     pixel_iterator result = *this;
     ++_offset;
     return result;
-}
-
-ConvolutionWindow::pixel_iterator& ConvolutionWindow::pixel_iterator::operator --() {
-    --_offset;
-    return *this;
-}
-
-ConvolutionWindow::pixel_iterator ConvolutionWindow::pixel_iterator::operator --(int) {
-    pixel_iterator result = *this;
-    --_offset;
-    return result;
-}
-
-ConvolutionWindow::pixel_iterator& ConvolutionWindow::pixel_iterator::operator +=(int offset) {
-    _offset += offset;
-    return *this;
-}
-
-ConvolutionWindow::pixel_iterator::difference_type operator -(const ConvolutionWindow::pixel_iterator& i1, const ConvolutionWindow::pixel_iterator& i2) {
-    return i1._offset - i2._offset;
 }
