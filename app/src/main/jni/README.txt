@@ -14,4 +14,7 @@ The Image Processing folder contains all the logic related to actually processin
 primary class is ConvolutionWindow.  This is an abstract class which is derived from by Mean- and
 MedianConvolutionFilter.  It creates a ConvolutionWindow for each pixel, and passes that window to
 the abstract function ComputeConvolution, which works on the window.  The window exposes an
-iterator over Pixel objects.
+iterator over Pixel objects, which abstract away the details of where the individual components
+of a pixel lie.
+
+This OO model prevents some advanced optimization techniques, but is still faster than Java.

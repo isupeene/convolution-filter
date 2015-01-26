@@ -1,12 +1,13 @@
 package ece493.assignment1;
 
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-// TODO: Add a button to go back - using the hardware back button is unintuitive.
 public class SettingsActivity
         extends ActionBarActivity
         implements SeekBar.OnSeekBarChangeListener
@@ -16,6 +17,8 @@ public class SettingsActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         SeekBar seekBar = (SeekBar)findViewById(R.id.seek_bar);
         seekBar.setOnSeekBarChangeListener(this);
@@ -28,6 +31,16 @@ public class SettingsActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_settings, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setSeekBarValue() {
